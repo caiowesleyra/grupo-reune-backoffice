@@ -1,0 +1,12 @@
+{
+  "build": {
+    "env": {
+      "NODE_ENV": "production"
+    }
+  },
+  "functions": {},
+  "routes": [],
+  "installCommand": "npm ci",
+  "buildCommand": "npm run build",
+  "outputDirectory": "build"
+}
