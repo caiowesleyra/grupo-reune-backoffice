@@ -122,6 +122,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
                   <Icon sx={iconsStyle}>account_circle</Icon>
                 </IconButton>
               </Link>
+
               <IconButton
                 size="small"
                 disableRipple
@@ -133,6 +134,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
                   {miniSidenav ? "menu_open" : "menu"}
                 </Icon>
               </IconButton>
+
               <IconButton
                 size="small"
                 disableRipple
@@ -142,6 +144,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
               >
                 <Icon sx={iconsStyle}>settings</Icon>
               </IconButton>
+
               <IconButton
                 size="small"
                 disableRipple
@@ -154,6 +157,21 @@ function DashboardNavbar({ absolute, light, isMini }) {
               >
                 <Icon sx={iconsStyle}>notifications</Icon>
               </IconButton>
+
+              {/* ✅ Botão "Sair" funcional */}
+              <IconButton
+                size="small"
+                disableRipple
+                color="inherit"
+                sx={navbarIconButton}
+                onClick={() => {
+                  localStorage.removeItem("usuario");
+                  window.location.href = "https://www.gruporeune.com";
+                }}
+              >
+                <Icon sx={iconsStyle}>logout</Icon>
+              </IconButton>
+
               {renderMenu()}
             </MDBox>
           </MDBox>

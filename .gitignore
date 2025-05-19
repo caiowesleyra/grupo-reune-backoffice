@@ -6,6 +6,13 @@
 
 # testing
 /coverage
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
 
 # production
 /build
@@ -20,6 +27,3 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-
-commit.sh
