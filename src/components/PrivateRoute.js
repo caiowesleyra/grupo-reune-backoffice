@@ -1,7 +1,7 @@
-// src/PrivateRoute.js
+// src/components/PrivateRoute.js
 import React from "react";
-import { Navigate } from "react-router-dom";
 import PropTypes from "prop-types";
+import { Navigate } from "react-router-dom";
 
 const PrivateRoute = ({ children }) => {
   const usuario = JSON.parse(localStorage.getItem("usuario"));
