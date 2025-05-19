@@ -14,28 +14,45 @@ Coded by www.creative-tim.com
 */
 
 import { useState, useEffect, useMemo } from "react";
+
+// react-router components
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+
+// @mui material components
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Icon from "@mui/material/Icon";
-import Box from "@mui/material/Box";
+import Box from "@mui/material/Box"; // <== IMPORTANTE
 
+// Material Dashboard 2 React components
 import MDBox from "components/MDBox";
+
+// Material Dashboard 2 React example components
 import Sidenav from "examples/Sidenav";
 import Configurator from "examples/Configurator";
+
+// Material Dashboard 2 React themes
 import theme from "assets/theme";
 import themeRTL from "assets/theme/theme-rtl";
+
+// Material Dashboard 2 React Dark Mode themes
 import themeDark from "assets/theme-dark";
 import themeDarkRTL from "assets/theme-dark/theme-rtl";
+
+// RTL plugins
 import rtlPlugin from "stylis-plugin-rtl";
 import { CacheProvider } from "@emotion/react";
 import createCache from "@emotion/cache";
+
+// Material Dashboard 2 React routes
 import routes from "routes";
+
+// Material Dashboard 2 React contexts
 import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "context";
+
+// Images
 import brandWhite from "assets/images/logo-ct.png";
 import brandDark from "assets/images/logo-ct-dark.png";
-
-import PrivateRoute from "components/PrivateRoute";
 
 export default function App() {
   const [controller, dispatch] = useMaterialUIController();
@@ -49,7 +66,6 @@ export default function App() {
     whiteSidenav,
     darkMode,
   } = controller;
-
   const [onMouseEnter, setOnMouseEnter] = useState(false);
   const [rtlCache, setRtlCache] = useState(null);
   const { pathname } = useLocation();
@@ -59,6 +75,7 @@ export default function App() {
       key: "rtl",
       stylisPlugins: [rtlPlugin],
     });
+
     setRtlCache(cacheRtl);
   }, []);
 
@@ -91,14 +108,7 @@ export default function App() {
     allRoutes.map((route) => {
       if (route.collapse) return getRoutes(route.collapse);
       if (route.route) {
-        return (
-          <Route
-            exact
-            path={route.route}
-            key={route.key}
-            element={<PrivateRoute>{route.component}</PrivateRoute>}
-          />
-        );
+        return <Route exact path={route.route} element={route.component} key={route.key} />;
       }
       return null;
     });
@@ -154,7 +164,7 @@ export default function App() {
       {layout === "vr" && <Configurator />}
       <Routes>
         {getRoutes(routes)}
-        <Route path="*" element={<Navigate to="/login" />} />
+        <Route path="*" element={<Navigate to="/dashboard" />} />
       </Routes>
     </Box>
   );

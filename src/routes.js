@@ -60,9 +60,6 @@ import FreeDonation from "layouts/une-social/free-donation";
 import PartnerDonation from "layouts/une-social/partner-donation";
 import Cadastro from "layouts/cadastro";
 
-// Importa o componente de rota protegida
-import PrivateRoute from "components/PrivateRoute";
-
 const routes = [
   {
     type: "collapse",
@@ -70,11 +67,7 @@ const routes = [
     key: "dashboard",
     icon: <Icon fontSize="small">dashboard</Icon>,
     route: "/dashboard",
-    component: (
-      <PrivateRoute>
-        <Dashboard />
-      </PrivateRoute>
-    ),
+    component: <Dashboard />,
   },
   {
     type: "collapse",
@@ -90,11 +83,7 @@ const routes = [
     key: "profile",
     icon: <Icon fontSize="small">person</Icon>,
     route: "/profile",
-    component: (
-      <PrivateRoute>
-        <Profile />
-      </PrivateRoute>
-    ),
+    component: <Profile />,
   },
   {
     type: "collapse",
@@ -107,22 +96,14 @@ const routes = [
         key: "free-donation",
         icon: <Icon fontSize="small">card_giftcard</Icon>,
         route: "/une-social/free-donation",
-        component: (
-          <PrivateRoute>
-            <FreeDonation />
-          </PrivateRoute>
-        ),
+        component: <FreeDonation />,
       },
       {
         name: "Partner Donation",
         key: "partner-donation",
         icon: <Icon fontSize="small">volunteer_activism</Icon>,
         route: "/une-social/partner-donation",
-        component: (
-          <PrivateRoute>
-            <PartnerDonation />
-          </PrivateRoute>
-        ),
+        component: <PartnerDonation />,
       },
     ],
   },
@@ -132,11 +113,7 @@ const routes = [
     key: "sala-reuneflix",
     icon: <Icon fontSize="small">live_tv</Icon>,
     route: "/sala-reuneflix",
-    component: (
-      <PrivateRoute>
-        <SalaReuneflix />
-      </PrivateRoute>
-    ),
+    component: <SalaReuneflix />,
   },
   {
     type: "collapse",
@@ -144,11 +121,7 @@ const routes = [
     key: "colaborador",
     icon: <Icon fontSize="small">groups</Icon>,
     route: "/colaborador",
-    component: (
-      <PrivateRoute>
-        <Colaborador />
-      </PrivateRoute>
-    ),
+    component: <Colaborador />,
   },
   {
     type: "collapse",
@@ -156,11 +129,7 @@ const routes = [
     key: "comunidade",
     icon: <Icon fontSize="small">forum</Icon>,
     route: "/comunidade",
-    component: (
-      <PrivateRoute>
-        <Comunidade />
-      </PrivateRoute>
-    ),
+    component: <Comunidade />,
   },
   {
     type: "collapse",
@@ -168,11 +137,7 @@ const routes = [
     key: "extrato",
     icon: <Icon fontSize="small">receipt_long</Icon>,
     route: "/extrato",
-    component: (
-      <PrivateRoute>
-        <Extrato />
-      </PrivateRoute>
-    ),
+    component: <Extrato />,
   },
   {
     type: "collapse",
@@ -180,11 +145,7 @@ const routes = [
     key: "saques",
     icon: <Icon fontSize="small">account_balance_wallet</Icon>,
     route: "/saques",
-    component: (
-      <PrivateRoute>
-        <Saques />
-      </PrivateRoute>
-    ),
+    component: <Saques />,
   },
   {
     type: "collapse",
@@ -192,11 +153,7 @@ const routes = [
     key: "materiais",
     icon: <Icon fontSize="small">menu_book</Icon>,
     route: "/materiais",
-    component: (
-      <PrivateRoute>
-        <Materiais />
-      </PrivateRoute>
-    ),
+    component: <Materiais />,
   },
 ];
 
