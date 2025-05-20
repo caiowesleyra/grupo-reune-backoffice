@@ -33,15 +33,14 @@ import SpecialistProfitCard from "layouts/dashboard/components/SpecialistProfit"
 import WithdrawableBalanceCard from "layouts/dashboard/components/WithdrawableBalanceCard";
 import SocialImpactCard from "layouts/dashboard/components/SocialImpactCard";
 
-// ✅ NOVO CARD REAL DE COTAS
+// ✅ NOVOS CARDS CONECTADOS AO BANCO
 import CardTotalCotas from "components/CardTotalCotas";
+import CardPorcentagemCota from "components/CardPorcentagemCota";
+import PremioDoDiaCard from "layouts/dashboard/components/PremioDoDiaCard";
 
 function Dashboard() {
   const { sales, tasks } = reportsLineChartData;
 
-  const totalCotas = 100;
-  const minhasCotas = 15;
-  const porcentagemCota = ((minhasCotas / totalCotas) * 100).toFixed(2);
   const cotasVendidasHoje = 8;
   const comissao = cotasVendidasHoje * 10;
 
@@ -66,33 +65,13 @@ function Dashboard() {
 
           <Grid item xs={12} md={6} lg={3}>
             <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                color="info"
-                icon="weekend"
-                title="% DA SUA COTA"
-                count={`${porcentagemCota}%`}
-                percentage={{
-                  color: "success",
-                  amount: "+55%",
-                  label: "DESDE A ÚLTIMA SEMANA",
-                }}
-              />
+              <CardPorcentagemCota />
             </MDBox>
           </Grid>
 
           <Grid item xs={12} md={6} lg={3}>
             <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                color="success"
-                icon="store"
-                title="PRÊMIO DO DIA"
-                count="R$ 705,00"
-                percentage={{
-                  color: "success",
-                  amount: "+1%",
-                  label: "ONTEM",
-                }}
-              />
+              <PremioDoDiaCard />
             </MDBox>
           </Grid>
 
