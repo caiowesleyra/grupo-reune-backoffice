@@ -17,15 +17,21 @@ function PremioDoDiaCard() {
         }
 
         // Buscar valor total do prêmio (os 40% do lucro)
-        const premioRes = await axios.get("https://grupo-reune-backend.onrender.com/api/premio-do-dia");
+        const premioRes = await axios.get(
+          "https://grupo-reune-backend.onrender.com/api/premio-do-dia"
+        );
         const valorPremio = Number(premioRes.data.valor_total);
 
         // Buscar total de cotas aprovadas no sistema
-        const totalCotasRes = await axios.get("https://grupo-reune-backend.onrender.com/api/total-cotas-geral");
+        const totalCotasRes = await axios.get(
+          "https://grupo-reune-backend.onrender.com/api/total-cotas-geral"
+        );
         const totalCotasSistema = Number(totalCotasRes.data.total);
 
         // Buscar total de cotas aprovadas do usuário
-        const minhasCotasRes = await axios.get(`https://grupo-reune-backend.onrender.com/api/total-cotas/${id_usuario}`);
+        const minhasCotasRes = await axios.get(
+          `https://grupo-reune-backend.onrender.com/api/total-cotas/${id_usuario}`
+        );
         const minhasCotas = Number(minhasCotasRes.data.total);
 
         if (valorPremio && totalCotasSistema && minhasCotas) {
