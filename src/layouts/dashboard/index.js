@@ -29,9 +29,12 @@ import lucroEspecialistasHoje from "layouts/dashboard/data/lucroEspecialistas";
 import PhotoCarousel from "layouts/dashboard/components/PhotoCarousel";
 import RankingDoadores from "layouts/dashboard/components/ranking/RankingDoadores";
 import TargetOfTheDay from "layouts/dashboard/components/TargetOfTheDay";
-import SpecialistProfitCard from "layouts/dashboard/components/SpecialistProfit"; // ✅ ALTERADO AQUI
+import SpecialistProfitCard from "layouts/dashboard/components/SpecialistProfit";
 import WithdrawableBalanceCard from "layouts/dashboard/components/WithdrawableBalanceCard";
-import SocialImpactCard from "layouts/dashboard/components/SocialImpactCard"; // ✅ NOVO CARD IMPORTADO
+import SocialImpactCard from "layouts/dashboard/components/SocialImpactCard";
+
+// ✅ NOVO CARD REAL DE COTAS
+import CardTotalCotas from "components/CardTotalCotas";
 
 function Dashboard() {
   const { sales, tasks } = reportsLineChartData;
@@ -57,17 +60,7 @@ function Dashboard() {
         <Grid container spacing={3}>
           <Grid item xs={12} md={6} lg={3}>
             <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                color="warning"
-                icon="person_add"
-                title="TOTAL DE COTAS"
-                count={minhasCotas}
-                percentage={{
-                  color: "warning",
-                  amount: "",
-                  label: "VOCÊ É UM FUNDADOR",
-                }}
-              />
+              <CardTotalCotas />
             </MDBox>
           </Grid>
 
