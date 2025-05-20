@@ -7,16 +7,17 @@ function PremioDoDiaCard() {
 
   useEffect(() => {
     const fetchPremio = async () => {
+      const usuario = JSON.parse(localStorage.getItem("usuario") || "{}");
+      console.log("👤 Usuário localStorage:", usuario);
+
+      const id_usuario = usuario?.id;
+      if (!id_usuario) {
+        console.warn("ID do usuário não encontrado no localStorage.");
+        return;
+      }
+
       try {
-        const usuario = JSON.parse(localStorage.getItem("usuario") || "{}");
-        const id_usuario = usuario.id;
-
-        if (!id_usuario) {
-          console.warn("ID do usuário não encontrado no localStorage.");
-          return;
-        }
-
-        // Buscar valor total do prêmio (os 40% do lucro)
+        // Buscar valor total do prêmio do dia (os 40%)
         const premioRes = await axios.get(
           "https://grupo-reune-backend.onrender.com/api/premio-do-dia"
         );
@@ -26,25 +27,21 @@ function PremioDoDiaCard() {
         const totalCotasRes = await axios.get(
           "https://grupo-reune-backend.onrender.com/api/total-cotas-geral"
         );
-        const totalCotasSistema = Number(totalCotasRes.data.total);
+        const totalCotasSistema = totalCotasRes.data.total || 1;
 
-        // Buscar total de cotas aprovadas do usuário
+        // Buscar cotas do usuário
         const minhasCotasRes = await axios.get(
           `https://grupo-reune-backend.onrender.com/api/total-cotas/${id_usuario}`
         );
-        const minhasCotas = Number(minhasCotasRes.data.total);
+        const minhasCotas = minhasCotasRes.data.total || 0;
 
-        if (valorPremio && totalCotasSistema && minhasCotas) {
-          const percentual = minhasCotas / totalCotasSistema;
-          const premioFinal = valorPremio * percentual;
-          setPremio(premioFinal.toFixed(2));
-        } else {
-          console.warn("Dados insuficientes para calcular o prêmio.");
-          setPremio("0.00");
-        }
+        // Calcular percentual e valor final do prêmio
+        const percentual = minhasCotas / totalCotasSistema;
+        const premioFinal = valorPremio * percentual;
+
+        setPremio(premioFinal.toFixed(2));
       } catch (error) {
-        console.error("Erro ao buscar prêmio do dia:", error);
-        setPremio("0.00");
+        console.error("Erro ao buscar dados do prêmio:", error);
       }
     };
 
