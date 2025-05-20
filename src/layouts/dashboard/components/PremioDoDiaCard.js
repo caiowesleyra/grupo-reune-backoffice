@@ -8,9 +8,12 @@ function PremioDoDiaCard() {
   useEffect(() => {
     const fetchPremio = async () => {
       try {
-        const usuario = JSON.parse(localStorage.getItem("usuario"));
+        const usuario = JSON.parse(localStorage.getItem("usuario") || "{}");
         const id_usuario = usuario?.id;
-        if (!id_usuario) return;
+        if (!id_usuario) {
+          console.warn("ID do usuário não encontrado no localStorage.");
+          return;
+        }
 
         // 1. Buscar valor total do prêmio do dia (os 40% do lucro)
         const premioRes = await axios.get(
