@@ -214,16 +214,6 @@ function Sidenav({ color, routes, ...rest }) {
         }
       />
       <List>{renderRoutes(routes)}</List>
-      <MDBox p={2} mt="auto">
-        <MDButton
-          onClick={handleLogout}
-          variant="gradient"
-          color={sidenavColor} // permanece azul
-          fullWidth
-        >
-          Sair
-        </MDButton>
-      </MDBox>
     </SidenavRoot>
   );
 }
