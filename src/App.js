@@ -16,33 +16,27 @@ Coded by www.creative-tim.com
 import { useState, useEffect, useMemo } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 
-// @mui material components
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Icon from "@mui/material/Icon";
 import Box from "@mui/material/Box";
 
-// Custom components
 import MDBox from "components/MDBox";
 import Sidenav from "examples/Sidenav";
 import Configurator from "examples/Configurator";
 
-// Themes
 import theme from "assets/theme";
 import themeRTL from "assets/theme/theme-rtl";
 import themeDark from "assets/theme-dark";
 import themeDarkRTL from "assets/theme-dark/theme-rtl";
 
-// RTL
 import rtlPlugin from "stylis-plugin-rtl";
 import { CacheProvider } from "@emotion/react";
 import createCache from "@emotion/cache";
 
-// Rotas e contexto
 import routes from "routes";
 import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "context";
 
-// Imagens
 import brandWhite from "assets/images/logo-ct.png";
 import brandDark from "assets/images/logo-ct-dark.png";
 
@@ -63,20 +57,20 @@ export default function App() {
   const [rtlCache, setRtlCache] = useState(null);
   const { pathname } = useLocation();
 
+  // ✅ Salvar ?usuario= no localStorage (mesmo após reload)
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const usuarioParam = params.get("usuario");
 
-    if (usuarioParam && !localStorage.getItem("usuarioLogado")) {
-      try {
+    try {
+      if (usuarioParam) {
         const usuario = JSON.parse(decodeURIComponent(usuarioParam));
         localStorage.setItem("usuarioLogado", JSON.stringify(usuario));
-        console.log("✅ Usuário salvo no painel:", usuario);
-
+        console.log("✅ Usuário logado salvo:", usuario);
         window.history.replaceState({}, document.title, window.location.pathname);
-      } catch (err) {
-        console.error("❌ Erro ao processar ?usuario= na URL:", err);
       }
+    } catch (err) {
+      console.error("❌ Erro ao processar usuário da URL:", err);
     }
   }, []);
 
@@ -114,12 +108,12 @@ export default function App() {
   }, [pathname]);
 
   const getRoutes = (allRoutes) =>
-    allRoutes.flatMap((route) => {
+    allRoutes.map((route) => {
       if (route.collapse) return getRoutes(route.collapse);
-      if (route.route && route.component) {
-        return <Route path={route.route} element={route.component} key={route.key} />;
+      if (route.route) {
+        return <Route exact path={route.route} element={route.component} key={route.key} />;
       }
-      return [];
+      return null;
     });
 
   const configsButton = (
