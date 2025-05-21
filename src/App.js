@@ -58,11 +58,11 @@ export default function App() {
     if (usuarioParam) {
       try {
         const usuario = JSON.parse(decodeURIComponent(usuarioParam));
-        localStorage.setItem("usuarioLogado", JSON.stringify(usuario));
-        console.log("✅ usuarioLogado salvo:", usuario);
+        localStorage.setItem("usuario", JSON.stringify(usuario));
+        console.log("✅ usuario salvo:", usuario);
         window.history.replaceState({}, document.title, window.location.pathname);
       } catch (err) {
-        console.error("❌ Erro ao salvar usuarioLogado:", err);
+        console.error("❌ Erro ao salvar usuario:", err);
       }
     }
   }, []);
