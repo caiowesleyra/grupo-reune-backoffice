@@ -19,10 +19,6 @@ import MDBox from "components/MDBox";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
-import ReportsLineChart from "examples/Charts/LineCharts/ReportsLineChart";
-import ComplexStatisticsCard from "examples/Cards/StatisticsCards/ComplexStatisticsCard";
-
-// DADOS E COMPONENTES CUSTOMIZADOS
 import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
 import DonationActivityTimeline from "./components/DonationActivityTimeline";
 import lucroEspecialistasHoje from "layouts/dashboard/data/lucroEspecialistas";
@@ -37,20 +33,10 @@ import SocialImpactCard from "layouts/dashboard/components/SocialImpactCard";
 import CardTotalCotas from "components/CardTotalCotas";
 import CardPorcentagemCota from "components/CardPorcentagemCota";
 import PremioDoDiaCard from "layouts/dashboard/components/PremioDoDiaCard";
+import SaldoColaboradorCard from "layouts/dashboard/components/SaldoColaboradorCard"; // ✅ NOVO
 
 function Dashboard() {
   const { sales, tasks } = reportsLineChartData;
-
-  const cotasVendidasHoje = 8;
-  const comissao = cotasVendidasHoje * 10;
-
-  const crescimentoCotas = {
-    labels: ["03/05", "04/05", "05/05", "06/05", "07/05", "08/05", "09/05"],
-    datasets: {
-      label: "Cotas indicadas",
-      data: [2, 4, 1, 5, 3, 6, 8],
-    },
-  };
 
   return (
     <DashboardLayout>
@@ -77,17 +63,7 @@ function Dashboard() {
 
           <Grid item xs={12} md={6} lg={3}>
             <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                color="primary"
-                icon="leaderboard"
-                title="SALDO DE COLABORADOR"
-                count={`R$ ${comissao > 0 ? comissao.toFixed(2) : "0,00"}`}
-                percentage={{
-                  color: "primary",
-                  amount: "",
-                  label: "10% sobre cotas indicadas hoje",
-                }}
-              />
+              <SaldoColaboradorCard />
             </MDBox>
           </Grid>
         </Grid>
