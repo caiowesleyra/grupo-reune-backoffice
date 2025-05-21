@@ -2,15 +2,14 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
 
+// eslint-disable-next-line react/prop-types
 const AdminRoute = ({ children }) => {
   const usuario = JSON.parse(localStorage.getItem("usuario"));
 
-  // Se não estiver logado, redireciona para login
   if (!usuario) {
     return <Navigate to="/auth/login" replace />;
   }
 
-  // Verifica se o e-mail é o do admin
   if (usuario.email !== "admin@gruporeune.com") {
     return <Navigate to="/dashboard" replace />;
   }
