@@ -1,5 +1,6 @@
 // src/layouts/lucro/LucroEspecialistas.js
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
@@ -12,6 +13,15 @@ function LucroEspecialistas() {
   const [valor, setValor] = useState("");
   const [mensagem, setMensagem] = useState("");
   const [erro, setErro] = useState("");
+  const navigate = useNavigate();
+
+  // ✅ Proteção: redirecionar se não for admin
+  useEffect(() => {
+    const usuario = JSON.parse(localStorage.getItem("usuario"));
+    if (!usuario || usuario.email !== "admin@gruporeune.com") {
+      navigate("/dashboard");
+    }
+  }, [navigate]);
 
   const handleSubmit = async () => {
     try {
