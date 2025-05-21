@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import {
   Box,
   Button,
@@ -17,28 +18,55 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 
-function CadastroIndicado() {
+function Cadastro() {
   const [form, setForm] = useState({ nome: "", email: "", whatsapp: "", cpf: "", senha: "" });
   const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const [indicados, setIndicados] = useState([]);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setIndicados([
-      ...indicados,
-      {
-        ...form,
-        data: new Date().toLocaleDateString(),
-        status: "Cadastrado",
-      },
-    ]);
-    setSuccessMessage("Indicado cadastrado com sucesso!");
-    setForm({ nome: "", email: "", whatsapp: "", cpf: "", senha: "" });
-    setTimeout(() => setSuccessMessage(""), 4000);
+    setErrorMessage("");
+    setSuccessMessage("");
+
+    const usuario = JSON.parse(localStorage.getItem("usuarioLogado") || "{}");
+
+    if (!usuario?.id) {
+      setErrorMessage("Usuário logado não identificado.");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        "https://grupo-reune-backend.onrender.com/api/indicar",
+        form,
+        {
+          headers: {
+            "x-user-id": usuario.id,
+          },
+        }
+      );
+
+      setIndicados([
+        ...indicados,
+        {
+          ...form,
+          data: new Date().toLocaleDateString(),
+          status: "Cadastrado",
+        },
+      ]);
+
+      setSuccessMessage("Indicado cadastrado com sucesso!");
+      setForm({ nome: "", email: "", whatsapp: "", cpf: "", senha: "" });
+      setTimeout(() => setSuccessMessage(""), 4000);
+    } catch (error) {
+      console.error("❌ Erro ao cadastrar:", error);
+      setErrorMessage("Erro ao cadastrar indicado.");
+    }
   };
 
   return (
@@ -54,6 +82,7 @@ function CadastroIndicado() {
         </Typography>
 
         {successMessage && <Alert severity="success">{successMessage}</Alert>}
+        {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
 
         <Box component="form" onSubmit={handleSubmit} sx={{ mb: 4 }}>
           <Grid container spacing={2}>
@@ -167,4 +196,4 @@ function CadastroIndicado() {
   );
 }
 
-export default CadastroIndicado;
+export default Cadastro;
