@@ -9,36 +9,31 @@ function PremioDoDiaCard() {
   const [premio, setPremio] = useState(null);
 
   useEffect(() => {
+    const usuario = JSON.parse(localStorage.getItem("usuarioLogado") || "{}");
+    const id_usuario = usuario?.id;
+
+    if (!id_usuario) {
+      console.warn("ID do usuário não encontrado no localStorage.");
+      return;
+    }
+
     const fetchPremio = async () => {
       try {
-        // ✅ ALTERADO AQUI: agora busca de localStorage 'usuario'
-        const usuario = JSON.parse(localStorage.getItem("usuario") || "{}");
-        const id_usuario = usuario?.id;
-
-        if (!id_usuario) {
-          console.warn("ID do usuário não encontrado no localStorage.");
-          return;
-        }
-
-        // 1. Buscar valor total do prêmio do dia
         const premioRes = await axios.get(
           "https://grupo-reune-backend.onrender.com/api/premio-do-dia"
         );
         const valorPremio = Number(premioRes.data.valor_total);
 
-        // 2. Total de cotas no sistema
         const totalCotasRes = await axios.get(
           "https://grupo-reune-backend.onrender.com/api/total-cotas-geral"
         );
         const totalCotasSistema = Number(totalCotasRes.data.total) || 1;
 
-        // 3. Cotas do usuário
         const minhasCotasRes = await axios.get(
           `https://grupo-reune-backend.onrender.com/api/total-cotas/${id_usuario}`
         );
         const minhasCotas = Number(minhasCotasRes.data.total) || 0;
 
-        // 4. Calcular percentual e prêmio final
         const percentual = minhasCotas / totalCotasSistema;
         const premioFinal = valorPremio * percentual;
 
