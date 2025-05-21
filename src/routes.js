@@ -155,6 +155,14 @@ const routes = [
     route: "/materiais",
     component: <Materiais />,
   },
+
+  // ✅ ROTA DE LOGIN (sem exibir no menu)
+  {
+    type: "route",
+    key: "login",
+    route: "/auth/login",
+    component: <SignIn />,
+  },
 ];
 
 export default routes;
