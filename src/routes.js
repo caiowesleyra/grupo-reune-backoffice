@@ -52,7 +52,10 @@ import Saques from "layouts/saques";
 import Materiais from "layouts/materiais";
 import FreeDonation from "layouts/une-social/free-donation";
 import PartnerDonation from "layouts/une-social/partner-donation";
-import LucroEspecialistas from "layouts/lucro/LucroEspecialistas"; // ✅ NOVO
+import LucroEspecialistas from "layouts/lucro/LucroEspecialistas";
+
+// ✅ Importa o componente que protege rotas de admin
+import AdminRoute from "components/AdminRoute";
 
 const routes = [
   {
@@ -150,12 +153,16 @@ const routes = [
     component: <Materiais />,
   },
 
-  // ✅ ROTA PARA INSERIR LUCRO (oculta do menu)
+  // ✅ ROTA PARA INSERIR LUCRO (somente admin tem acesso)
   {
     type: "route",
     key: "lucro-especialistas",
     route: "/lucro-especialistas",
-    component: <LucroEspecialistas />,
+    component: (
+      <AdminRoute>
+        <LucroEspecialistas />
+      </AdminRoute>
+    ),
   },
 
   // ✅ ROTA DE LOGIN (sem exibir no menu)
