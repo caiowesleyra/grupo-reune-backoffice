@@ -63,7 +63,6 @@ export default function App() {
   const [rtlCache, setRtlCache] = useState(null);
   const { pathname } = useLocation();
 
-  // ✅ NOVO: capturar o ?usuario= na URL e salvar no localStorage
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const usuarioParam = params.get("usuario");
@@ -74,7 +73,6 @@ export default function App() {
         localStorage.setItem("usuarioLogado", JSON.stringify(usuario));
         console.log("✅ Usuário salvo no painel:", usuario);
 
-        // Remove o parâmetro da URL
         window.history.replaceState({}, document.title, window.location.pathname);
       } catch (err) {
         console.error("❌ Erro ao processar ?usuario= na URL:", err);
@@ -116,12 +114,12 @@ export default function App() {
   }, [pathname]);
 
   const getRoutes = (allRoutes) =>
-    allRoutes.map((route) => {
+    allRoutes.flatMap((route) => {
       if (route.collapse) return getRoutes(route.collapse);
-      if (route.route) {
-        return <Route exact path={route.route} element={route.component} key={route.key} />;
+      if (route.route && route.component) {
+        return <Route path={route.route} element={route.component} key={route.key} />;
       }
-      return null;
+      return [];
     });
 
   const configsButton = (
