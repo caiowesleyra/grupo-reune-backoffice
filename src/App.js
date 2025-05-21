@@ -68,10 +68,10 @@ export default function App() {
     const params = new URLSearchParams(window.location.search);
     const usuarioParam = params.get("usuario");
 
-    if (usuarioParam && !localStorage.getItem("usuario")) {
+    if (usuarioParam && !localStorage.getItem("usuarioLogado")) {
       try {
         const usuario = JSON.parse(decodeURIComponent(usuarioParam));
-        localStorage.setItem("usuario", JSON.stringify(usuario));
+        localStorage.setItem("usuarioLogado", JSON.stringify(usuario));
         console.log("✅ Usuário salvo no painel:", usuario);
 
         // Remove o parâmetro da URL
