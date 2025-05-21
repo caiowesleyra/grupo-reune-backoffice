@@ -1,3 +1,6 @@
+// ✅ PASSO 1: Corrigir o nome da chave no PremioDoDiaCard.js
+// Está buscando de 'usuarioLogado', mas o login salva como 'usuario'
+
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ComplexStatisticsCard from "examples/Cards/StatisticsCards/ComplexStatisticsCard";
@@ -8,28 +11,34 @@ function PremioDoDiaCard() {
   useEffect(() => {
     const fetchPremio = async () => {
       try {
-        const usuario = JSON.parse(localStorage.getItem("usuarioLogado") || "{}");
+        // ✅ ALTERADO AQUI: agora busca de localStorage 'usuario'
+        const usuario = JSON.parse(localStorage.getItem("usuario") || "{}");
         const id_usuario = usuario?.id;
+
         if (!id_usuario) {
           console.warn("ID do usuário não encontrado no localStorage.");
           return;
         }
 
+        // 1. Buscar valor total do prêmio do dia
         const premioRes = await axios.get(
           "https://grupo-reune-backend.onrender.com/api/premio-do-dia"
         );
         const valorPremio = Number(premioRes.data.valor_total);
 
+        // 2. Total de cotas no sistema
         const totalCotasRes = await axios.get(
           "https://grupo-reune-backend.onrender.com/api/total-cotas-geral"
         );
         const totalCotasSistema = Number(totalCotasRes.data.total) || 1;
 
+        // 3. Cotas do usuário
         const minhasCotasRes = await axios.get(
           `https://grupo-reune-backend.onrender.com/api/total-cotas/${id_usuario}`
         );
         const minhasCotas = Number(minhasCotasRes.data.total) || 0;
 
+        // 4. Calcular percentual e prêmio final
         const percentual = minhasCotas / totalCotasSistema;
         const premioFinal = valorPremio * percentual;
 
