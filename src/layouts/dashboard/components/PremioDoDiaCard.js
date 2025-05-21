@@ -13,7 +13,7 @@ function PremioDoDiaCard() {
     const id_usuario = usuario?.id;
 
     if (!id_usuario) {
-      console.warn("ID do usuário não encontrado no localStorage.");
+      console.warn("ID do usuário não encontrado.");
       return;
     }
 

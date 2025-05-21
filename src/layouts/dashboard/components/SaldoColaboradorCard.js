@@ -6,7 +6,7 @@ function SaldoColaboradorCard() {
   const [saldo, setSaldo] = useState(null);
 
   useEffect(() => {
-    const usuario = JSON.parse(localStorage.getItem("usuarioLogado"));
+    const usuario = JSON.parse(localStorage.getItem("usuarioLogado") || "{}");
     if (usuario?.id) {
       axios
         .get(`https://grupo-reune-backend.onrender.com/api/saldo-colaborador/${usuario.id}`)
