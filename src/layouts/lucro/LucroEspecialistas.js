@@ -1,7 +1,8 @@
 // src/layouts/lucro/LucroEspecialistas.js
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import MDBox from "components/MDBox";
@@ -15,10 +16,15 @@ function LucroEspecialistas() {
   const [erro, setErro] = useState("");
   const navigate = useNavigate();
 
-  // ✅ Proteção: redirecionar se não for admin
+  // ✅ Proteção de rota: só permite admin@gruporeune.com acessar
   useEffect(() => {
-    const usuario = JSON.parse(localStorage.getItem("usuario"));
-    if (!usuario || usuario.email !== "admin@gruporeune.com") {
+    try {
+      const usuario = JSON.parse(localStorage.getItem("usuario"));
+      if (!usuario || !usuario.email || usuario.email !== "admin@gruporeune.com") {
+        navigate("/dashboard");
+      }
+    } catch (err) {
+      console.error("Erro ao verificar permissão de admin:", err);
       navigate("/dashboard");
     }
   }, [navigate]);
