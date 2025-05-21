@@ -40,15 +40,9 @@ import Icon from "@mui/material/Icon";
 
 // Importando as páginas
 import Dashboard from "layouts/dashboard";
-import Tables from "layouts/tables";
-import Billing from "layouts/billing";
-import RTL from "layouts/rtl";
-import Notifications from "layouts/notifications";
 import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
-import SignUp from "layouts/authentication/sign-up";
-
-// Suas páginas personalizadas
+import Cadastro from "layouts/cadastro";
 import UneSocial from "layouts/une-social";
 import SalaReuneflix from "layouts/sala-reuneflix";
 import Colaborador from "layouts/colaborador";
@@ -58,7 +52,7 @@ import Saques from "layouts/saques";
 import Materiais from "layouts/materiais";
 import FreeDonation from "layouts/une-social/free-donation";
 import PartnerDonation from "layouts/une-social/partner-donation";
-import Cadastro from "layouts/cadastro";
+import LucroEspecialistas from "layouts/lucro/LucroEspecialistas"; // ✅ NOVO
 
 const routes = [
   {
@@ -154,6 +148,14 @@ const routes = [
     icon: <Icon fontSize="small">menu_book</Icon>,
     route: "/materiais",
     component: <Materiais />,
+  },
+
+  // ✅ ROTA PARA INSERIR LUCRO (oculta do menu)
+  {
+    type: "route",
+    key: "lucro-especialistas",
+    route: "/lucro-especialistas",
+    component: <LucroEspecialistas />,
   },
 
   // ✅ ROTA DE LOGIN (sem exibir no menu)
