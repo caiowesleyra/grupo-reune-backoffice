@@ -15,151 +15,61 @@ Coded by www.creative-tim.com
 
 // @mui material components
 // @mui material components
-import React, { useState } from "react";
-import {
-  Card,
-  Grid,
-  Avatar,
-  Typography,
-  Button,
-  Box,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  TextField,
-} from "@mui/material";
-
-// Layouts
+import React, { useEffect, useState } from "react";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
+import Footer from "examples/Footer";
+import { Avatar, Box, Button, Card, CardContent, Grid, Typography } from "@mui/material";
 
 function Profile() {
-  const nome = "Caio Mendes";
-  const status = "FUNDADOR";
-  const email = "caio@email.com";
-  const whatsapp = "(11) 91234-5678";
-  const cidadeEstado = "São Paulo - SP";
+  const [usuario, setUsuario] = useState(null);
 
-  // Estado para imagem de perfil
-  const [profileImage, setProfileImage] = useState("");
-
-  // Upload de imagem
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const imageURL = URL.createObjectURL(file);
-      setProfileImage(imageURL);
+  useEffect(() => {
+    const dados = localStorage.getItem("usuario");
+    if (dados) {
+      const user = JSON.parse(dados);
+      setUsuario(user);
     }
-  };
-
-  // Estados dos modais
-  const [openEdit, setOpenEdit] = useState(false);
-  const [openPassword, setOpenPassword] = useState(false);
+  }, []);
 
   return (
     <DashboardLayout>
       <DashboardNavbar />
       <Box p={3}>
-        <Card sx={{ p: 4 }}>
-          <Grid container spacing={3} alignItems="center">
-            <Grid item xs={12} md={3} sx={{ textAlign: "center" }}>
-              <Avatar
-                src={profileImage}
-                alt={nome}
-                sx={{ width: 120, height: 120, margin: "auto" }}
-              />
-              <Typography variant="h6" fontWeight="bold" mt={2}>
-                {nome}
-              </Typography>
-              <Typography variant="body2" color="textSecondary">
-                Status: {status}
-              </Typography>
-
-              <Box mt={2}>
-                <input
-                  type="file"
-                  accept="image/*"
-                  id="upload-photo"
-                  style={{ display: "none" }}
-                  onChange={handleImageChange}
-                />
-                <label htmlFor="upload-photo">
-                  <Button variant="outlined" component="span" color="primary">
-                    Selecionar Foto
-                  </Button>
-                </label>
-              </Box>
-            </Grid>
-
-            <Grid item xs={12} md={9}>
-              <Typography variant="body1" mb={1}>
-                <strong>Email:</strong> {email}
-              </Typography>
-              <Typography variant="body1" mb={1}>
-                <strong>WhatsApp:</strong> {whatsapp}
-              </Typography>
-              <Typography variant="body1" mb={3}>
-                <strong>Cidade e Estado:</strong> {cidadeEstado}
-              </Typography>
-
-              <Button
-                variant="contained"
-                color="primary"
-                sx={{ mr: 2 }}
-                onClick={() => setOpenEdit(true)}
-              >
-                Editar Informações
-              </Button>
-
-              <Button
-                variant="outlined"
-                sx={{ color: "#000", borderColor: "#000" }}
-                onClick={() => setOpenPassword(true)}
-              >
-                Trocar Senha
-              </Button>
-            </Grid>
-          </Grid>
+        <Card>
+          <CardContent>
+            {usuario ? (
+              <Grid container spacing={3} alignItems="center">
+                <Grid item xs={12} md={3}>
+                  <Avatar alt={usuario.nome} src="" sx={{ width: 120, height: 120 }} />
+                </Grid>
+                <Grid item xs={12} md={9}>
+                  <Typography variant="h5" gutterBottom>
+                    {usuario.nome}
+                  </Typography>
+                  <Typography>
+                    <strong>Email:</strong> {usuario.email}
+                  </Typography>
+                  <Typography>
+                    <strong>Status:</strong> FUNDADOR
+                  </Typography>
+                  <Typography sx={{ mt: 2 }}>
+                    <Button variant="contained" color="success">
+                      EDITAR INFORMAÇÕES
+                    </Button>{" "}
+                    <Button variant="outlined" color="secondary">
+                      TROCAR SENHA
+                    </Button>
+                  </Typography>
+                </Grid>
+              </Grid>
+            ) : (
+              <Typography color="error">Nenhum usuário logado.</Typography>
+            )}
+          </CardContent>
         </Card>
       </Box>
-
-      {/* Modal: Editar Informações */}
-      <Dialog open={openEdit} onClose={() => setOpenEdit(false)} maxWidth="sm" fullWidth>
-        <DialogTitle>Editar Informações</DialogTitle>
-        <DialogContent>
-          <TextField fullWidth margin="dense" label="Nome" defaultValue={nome} />
-          <TextField fullWidth margin="dense" label="Email" defaultValue={email} />
-          <TextField fullWidth margin="dense" label="WhatsApp" defaultValue={whatsapp} />
-          <TextField fullWidth margin="dense" label="Cidade e Estado" defaultValue={cidadeEstado} />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpenEdit(false)} sx={{ color: "#000" }}>
-            Cancelar
-          </Button>
-          <Button variant="contained" onClick={() => setOpenEdit(false)}>
-            Salvar
-          </Button>
-        </DialogActions>
-      </Dialog>
-
-      {/* Modal: Trocar Senha */}
-      <Dialog open={openPassword} onClose={() => setOpenPassword(false)} maxWidth="sm" fullWidth>
-        <DialogTitle>Trocar Senha</DialogTitle>
-        <DialogContent>
-          <TextField fullWidth margin="dense" label="Senha Atual" type="password" />
-          <TextField fullWidth margin="dense" label="Nova Senha" type="password" />
-          <TextField fullWidth margin="dense" label="Confirmar Nova Senha" type="password" />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpenPassword(false)} sx={{ color: "#000" }}>
-            Cancelar
-          </Button>
-          <Button variant="contained" onClick={() => setOpenPassword(false)}>
-            Salvar
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <Footer />
     </DashboardLayout>
   );
 }
