@@ -14,43 +14,35 @@ Coded by www.creative-tim.com
 */
 
 import { useState, useEffect, useMemo } from "react";
-
-// react-router components
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 
 // @mui material components
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Icon from "@mui/material/Icon";
-import Box from "@mui/material/Box"; // <== IMPORTANTE
+import Box from "@mui/material/Box";
 
-// Material Dashboard 2 React components
+// Custom components
 import MDBox from "components/MDBox";
-
-// Material Dashboard 2 React example components
 import Sidenav from "examples/Sidenav";
 import Configurator from "examples/Configurator";
 
-// Material Dashboard 2 React themes
+// Themes
 import theme from "assets/theme";
 import themeRTL from "assets/theme/theme-rtl";
-
-// Material Dashboard 2 React Dark Mode themes
 import themeDark from "assets/theme-dark";
 import themeDarkRTL from "assets/theme-dark/theme-rtl";
 
-// RTL plugins
+// RTL
 import rtlPlugin from "stylis-plugin-rtl";
 import { CacheProvider } from "@emotion/react";
 import createCache from "@emotion/cache";
 
-// Material Dashboard 2 React routes
+// Rotas e contexto
 import routes from "routes";
-
-// Material Dashboard 2 React contexts
 import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "context";
 
-// Images
+// Imagens
 import brandWhite from "assets/images/logo-ct.png";
 import brandDark from "assets/images/logo-ct-dark.png";
 
@@ -66,16 +58,35 @@ export default function App() {
     whiteSidenav,
     darkMode,
   } = controller;
+
   const [onMouseEnter, setOnMouseEnter] = useState(false);
   const [rtlCache, setRtlCache] = useState(null);
   const { pathname } = useLocation();
+
+  // ✅ NOVO: capturar o ?usuario= na URL e salvar no localStorage
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const usuarioParam = params.get("usuario");
+
+    if (usuarioParam && !localStorage.getItem("usuario")) {
+      try {
+        const usuario = JSON.parse(decodeURIComponent(usuarioParam));
+        localStorage.setItem("usuario", JSON.stringify(usuario));
+        console.log("✅ Usuário salvo no painel:", usuario);
+
+        // Remove o parâmetro da URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+      } catch (err) {
+        console.error("❌ Erro ao processar ?usuario= na URL:", err);
+      }
+    }
+  }, []);
 
   useMemo(() => {
     const cacheRtl = createCache({
       key: "rtl",
       stylisPlugins: [rtlPlugin],
     });
-
     setRtlCache(cacheRtl);
   }, []);
 
