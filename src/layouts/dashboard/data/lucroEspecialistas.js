@@ -1,6 +1,6 @@
 // src/layouts/dashboard/data/lucroEspecialistas.js
 
-// Valor do lucro dos especialistas no dia (edite este valor todo dia manualmente)
-const lucroEspecialistasHoje = "11.750,00";
+// ✅ Edite este valor todos os dias com o lucro gerado pelos especialistas
+const lucroEspecialistasHoje = 2056.0;
 
 export default lucroEspecialistasHoje;

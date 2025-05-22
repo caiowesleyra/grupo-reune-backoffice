@@ -1,4 +1,3 @@
-// index.js
 import React, { useState } from "react";
 import ComplexStatisticsCard from "examples/Cards/StatisticsCards/ComplexStatisticsCard";
 import SpecialistModal from "./modal";
