@@ -1,13 +1,32 @@
+import { useEffect, useState } from "react";
 import Card from "@mui/material/Card";
 import Icon from "@mui/material/Icon";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
+import axios from "axios";
 import CountUp from "react-countup";
 
 function WithdrawableBalanceCard() {
-  const premioDoDia = 705.0;
-  const comissaoHoje = 80.0;
-  const saldoDisponivel = premioDoDia + comissaoHoje;
+  const [saldo, setSaldo] = useState(null);
+
+  useEffect(() => {
+    const usuario = JSON.parse(localStorage.getItem("usuario"));
+
+    if (usuario && usuario.id) {
+      axios
+        .get(`https://grupo-reune-backend.onrender.com/api/saldo-disponivel/${usuario.id}`)
+        .then((res) => {
+          setSaldo(res.data.saldo || 0);
+        })
+        .catch((err) => {
+          console.error("Erro ao buscar saldo disponível:", err);
+          setSaldo(0);
+        });
+    } else {
+      console.warn("Usuário não identificado.");
+      setSaldo(0);
+    }
+  }, []);
 
   return (
     <Card sx={{ p: 2, height: "100%", background: "#f39c12" }}>
@@ -15,7 +34,6 @@ function WithdrawableBalanceCard() {
         <MDBox
           variant="gradient"
           bgColor="white"
-          color="white"
           width="3rem"
           height="3rem"
           borderRadius="xl"
@@ -33,7 +51,7 @@ function WithdrawableBalanceCard() {
         </MDTypography>
       </MDBox>
       <MDTypography variant="h5" fontWeight="bold" color="white">
-        R$ <CountUp end={saldoDisponivel} duration={1.2} decimals={2} decimal="," />
+        R$ {saldo !== null ? <CountUp end={saldo} duration={1.2} decimals={2} decimal="," /> : "Carregando..."}
       </MDTypography>
       <MDTypography variant="caption" color="white">
         (Prêmio do Dia + Comissão de Indicação)
