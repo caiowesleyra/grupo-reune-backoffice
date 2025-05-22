@@ -51,7 +51,12 @@ function WithdrawableBalanceCard() {
         </MDTypography>
       </MDBox>
       <MDTypography variant="h5" fontWeight="bold" color="white">
-        R$ {saldo !== null ? <CountUp end={saldo} duration={1.2} decimals={2} decimal="," /> : "Carregando..."}
+        R${" "}
+        {saldo !== null ? (
+          <CountUp end={saldo} duration={1.2} decimals={2} decimal="," />
+        ) : (
+          "Carregando..."
+        )}
       </MDTypography>
       <MDTypography variant="caption" color="white">
         (Prêmio do Dia + Comissão de Indicação)
