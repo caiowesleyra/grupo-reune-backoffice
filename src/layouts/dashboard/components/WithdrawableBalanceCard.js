@@ -19,11 +19,11 @@ function WithdrawableBalanceCard() {
           setSaldo(res.data.saldo || 0);
         })
         .catch((err) => {
-          console.error("Erro ao buscar saldo disponível:", err);
+          console.error("❌ Erro ao buscar saldo disponível:", err);
           setSaldo(0);
         });
     } else {
-      console.warn("Usuário não identificado.");
+      console.warn("⚠️ Usuário não encontrado no localStorage.");
       setSaldo(0);
     }
   }, []);
@@ -51,12 +51,7 @@ function WithdrawableBalanceCard() {
         </MDTypography>
       </MDBox>
       <MDTypography variant="h5" fontWeight="bold" color="white">
-        R${" "}
-        {saldo !== null ? (
-          <CountUp end={saldo} duration={1.2} decimals={2} decimal="," />
-        ) : (
-          "Carregando..."
-        )}
+        R$ {saldo !== null ? <CountUp end={saldo} duration={1.2} decimals={2} decimal="," /> : "Carregando..."}
       </MDTypography>
       <MDTypography variant="caption" color="white">
         (Prêmio do Dia + Comissão de Indicação)
