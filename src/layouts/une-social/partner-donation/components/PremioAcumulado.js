@@ -48,7 +48,12 @@ function PremioAcumulado() {
         </MDTypography>
       </MDBox>
       <MDTypography variant="h5" fontWeight="bold" color="white">
-        R$ {total !== null ? <CountUp end={total} duration={1.2} decimals={2} decimal="," /> : "Carregando..."}
+        R${" "}
+        {total !== null ? (
+          <CountUp end={total} duration={1.2} decimals={2} decimal="," />
+        ) : (
+          "Carregando..."
+        )}
       </MDTypography>
       <MDTypography variant="caption" color="white">
         Total recebido até hoje
