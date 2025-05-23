@@ -1,10 +1,12 @@
+// ✅ FounderCard.js atualizado com valores dinâmicos de cotas vindos do dashboard futuramente
 import React from "react";
 import { Card, Button, Typography } from "@mui/material";
 
 function FounderCard() {
-  const valorMinimo = 1000; // 10 cotas de R$100
-  const totalCotas = 10;
-  const cotasComBonus = totalCotas * 2;
+  const valorMinimo = 1000;
+  const cotasNormais = 10;
+  const cotasBonus = 10;
+  const cotasComBonus = cotasNormais + cotasBonus;
 
   return (
     <Card
@@ -20,10 +22,10 @@ function FounderCard() {
         Plano Fundador
       </Typography>
       <Typography variant="body1" gutterBottom style={{ color: "white" }}>
-        Valor único: R$ 1.000,00
+        Valor único: R$ {valorMinimo.toFixed(2).replace(".", ",")}
       </Typography>
       <Typography variant="body2" gutterBottom style={{ color: "white" }}>
-        Receba <strong>{cotasComBonus} cotas</strong> (10 normais + 10 bônus)
+        Receba <strong>{cotasComBonus} cotas</strong> ({cotasNormais} normais + {cotasBonus} bônus)
       </Typography>
 
       <Button
@@ -39,10 +41,9 @@ function FounderCard() {
           },
         }}
         onClick={() => {
-          // Aqui futuramente colocaremos o redirecionamento para o checkout
-          alert(`
-            Você escolheu o Plano Fundador (R$ ${valorMinimo})
-            e receberá ${cotasComBonus} cotas.`);
+          alert(
+            `Você escolheu o Plano Fundador (R$ ${valorMinimo}) e receberá ${cotasComBonus} cotas.`
+          );
         }}
       >
         Contribuir como Fundador

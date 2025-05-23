@@ -7,6 +7,10 @@ function PartnerCard() {
   const valorUnitario = 100;
   const valorTotal = quantidade * valorUnitario;
 
+  const handleContribuir = () => {
+    alert(`Você escolheu ${quantidade} cota(s) (R$ ${valorTotal.toFixed(2)})`);
+  };
+
   return (
     <Card
       sx={{
@@ -22,7 +26,7 @@ function PartnerCard() {
         Cota de Apoio - Partner
       </Typography>
       <Typography variant="body1" gutterBottom>
-        Valor unitário: R$ 100,00
+        Valor unitário: R$ {valorUnitario.toFixed(2)}
       </Typography>
 
       <MDBox mt={2} mb={2}>
@@ -45,15 +49,13 @@ function PartnerCard() {
         variant="contained"
         size="large"
         sx={{ mt: 2, backgroundColor: "white", color: "#F37335", fontWeight: "bold" }}
-        onClick={() => {
-          // Aqui futuramente colocaremos o redirecionamento para o checkout
-          alert(`Você escolheu ${quantidade} cotas (R$ ${valorTotal.toFixed(2)})`);
-        }}
+        onClick={handleContribuir}
       >
-        Contribuir Agora
+        CONTRIBUIR AGORA
       </Button>
     </Card>
   );
 }
 
 export default PartnerCard;
+// 
