@@ -5,9 +5,9 @@ import Grid from "@mui/material/Grid";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 
-// Importando os cards customizados
-import TotalCotas from "../../dashboard/components/TotalCotas";
-import PercentualCota from "../../dashboard/components/PercentualCota";
+// Importando os cards customizados locais
+import TotalCotas from "./components/TotalCotas";
+import PercentualCota from "./components/PercentualCota";
 import PremioAcumulado from "./components/PremioAcumulado";
 import PartnerCard from "./components/PartnerCard";
 import FounderCard from "./components/FounderCard";
@@ -29,7 +29,7 @@ function PartnerDonation() {
         justifyContent: "flex-start",
         px: 2,
         py: 6,
-        pl: "270px", // Adicionando padding-left para compensar a sidebar
+        pl: "270px", // Compensar a sidebar
       }}
     >
       <MDBox width="100%">

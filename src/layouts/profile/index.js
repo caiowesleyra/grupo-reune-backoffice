@@ -22,15 +22,24 @@ import Footer from "examples/Footer";
 import { Avatar, Box, Button, Card, CardContent, Grid, Typography } from "@mui/material";
 
 function Profile() {
-  const [usuario, setUsuario] = useState(null);
+  // Força o usuário "João" como logado
+  const [usuario, setUsuario] = useState({
+    id: "USR001",
+    nome: "João",
+    email: "joao@email.com",
+    status: "FUNDADOR",
+    whatsapp: "(11) 99999-9999",
+    cpf: "123.456.789-00",
+  });
 
-  useEffect(() => {
-    const dados = localStorage.getItem("usuario");
-    if (dados) {
-      const user = JSON.parse(dados);
-      setUsuario(user);
-    }
-  }, []);
+  // Se quiser simular o login real, basta usar o useEffect abaixo:
+  // useEffect(() => {
+  //   const dados = localStorage.getItem("usuario");
+  //   if (dados) {
+  //     const user = JSON.parse(dados);
+  //     setUsuario(user);
+  //   }
+  // }, []);
 
   return (
     <DashboardLayout>
@@ -51,16 +60,22 @@ function Profile() {
                     <strong>Email:</strong> {usuario.email}
                   </Typography>
                   <Typography>
-                    <strong>Status:</strong> FUNDADOR
+                    <strong>Status:</strong> {usuario.status}
                   </Typography>
-                  <Typography sx={{ mt: 2 }}>
+                  <Typography>
+                    <strong>WhatsApp:</strong> {usuario.whatsapp}
+                  </Typography>
+                  <Typography>
+                    <strong>CPF:</strong> {usuario.cpf}
+                  </Typography>
+                  <Box mt={2}>
                     <Button variant="contained" color="success">
                       EDITAR INFORMAÇÕES
                     </Button>{" "}
                     <Button variant="outlined" color="secondary">
                       TROCAR SENHA
                     </Button>
-                  </Typography>
+                  </Box>
                 </Grid>
               </Grid>
             ) : (
