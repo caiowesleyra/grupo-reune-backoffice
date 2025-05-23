@@ -6,8 +6,8 @@ import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 
 // Importando os cards customizados locais
-import TotalCotas from "./components/TotalCotas";
-import PercentualCota from "./components/PercentualCota";
+import TotalCotas from "layouts/dashboard/components/TotalCotas";
+import PercentualCota from "layouts/dashboard/components/PercentualCota";
 import PremioAcumulado from "./components/PremioAcumulado";
 import PartnerCard from "./components/PartnerCard";
 import FounderCard from "./components/FounderCard";
