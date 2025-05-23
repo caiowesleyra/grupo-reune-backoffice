@@ -58,4 +58,3 @@ function PartnerCard() {
 }
 
 export default PartnerCard;
-// 
