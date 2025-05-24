@@ -12,9 +12,14 @@ function Profile() {
     const dados = localStorage.getItem("usuario");
     if (dados) {
       const user = JSON.parse(dados);
-      axios.get(`https://grupo-reune-backend.onrender.com/api/usuarios/${user.id}`)
-        .then(res => setUsuario(res.data))
-        .catch(err => console.error("Erro ao buscar dados do usuário:", err));
+      axios
+        .get(`https://grupo-reune-backend.onrender.com/api/usuario/${user.id}`)
+        .then((res) => {
+          setUsuario(res.data.usuario);
+        })
+        .catch((err) => {
+          console.error("Erro ao buscar dados do usuário:", err);
+        });
     }
   }, []);
 
@@ -33,18 +38,30 @@ function Profile() {
                   <Typography variant="h5" gutterBottom>
                     {usuario.nome}
                   </Typography>
-                  <Typography><strong>Email:</strong> {usuario.email}</Typography>
-                  <Typography><strong>Status:</strong> {usuario.status}</Typography>
-                  <Typography><strong>WhatsApp:</strong> {usuario.whatsapp}</Typography>
-                  <Typography><strong>CPF:</strong> {usuario.cpf}</Typography>
+                  <Typography>
+                    <strong>Email:</strong> {usuario.email}
+                  </Typography>
+                  <Typography>
+                    <strong>Status:</strong> {usuario.status}
+                  </Typography>
+                  <Typography>
+                    <strong>WhatsApp:</strong> {usuario.whatsapp}
+                  </Typography>
+                  <Typography>
+                    <strong>CPF:</strong> {usuario.cpf}
+                  </Typography>
                   <Box mt={2}>
-                    <Button variant="contained" color="success">EDITAR INFORMAÇÕES</Button>{" "}
-                    <Button variant="outlined" color="secondary">TROCAR SENHA</Button>
+                    <Button variant="contained" color="success">
+                      EDITAR INFORMAÇÕES
+                    </Button>
+                    <Button variant="outlined" color="secondary" sx={{ ml: 2 }}>
+                      TROCAR SENHA
+                    </Button>
                   </Box>
                 </Grid>
               </Grid>
             ) : (
-              <Typography color="error">Nenhum usuário logado ou dados não carregados.</Typography>
+              <Typography color="error">Nenhum usuário logado.</Typography>
             )}
           </CardContent>
         </Card>
