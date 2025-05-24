@@ -20,26 +20,27 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import { Avatar, Box, Button, Card, CardContent, Grid, Typography } from "@mui/material";
+import axios from "axios";
 
 function Profile() {
-  // Força o usuário "João" como logado
-  const [usuario, setUsuario] = useState({
-    id: "USR001",
-    nome: "João",
-    email: "joao@email.com",
-    status: "FUNDADOR",
-    whatsapp: "(11) 99999-9999",
-    cpf: "123.456.789-00",
-  });
+  const [usuario, setUsuario] = useState(null);
 
-  // Se quiser simular o login real, basta usar o useEffect abaixo:
-  // useEffect(() => {
-  //   const dados = localStorage.getItem("usuario");
-  //   if (dados) {
-  //     const user = JSON.parse(dados);
-  //     setUsuario(user);
-  //   }
-  // }, []);
+  useEffect(() => {
+    // Recupera o usuário do localStorage
+    const dados = localStorage.getItem("usuario");
+    if (dados) {
+      const user = JSON.parse(dados);
+      // Buscar informações completas no backend pelo ID
+      axios
+        .get(`https://grupo-reune-backend.onrender.com/api/usuario/${user.id}`)
+        .then((res) => {
+          setUsuario(res.data.usuario);
+        })
+        .catch((err) => {
+          console.error("Erro ao buscar dados do perfil:", err);
+        });
+    }
+  }, []);
 
   return (
     <DashboardLayout>
@@ -60,13 +61,13 @@ function Profile() {
                     <strong>Email:</strong> {usuario.email}
                   </Typography>
                   <Typography>
-                    <strong>Status:</strong> {usuario.status}
+                    <strong>Status:</strong> {usuario.status || "VISITANTE"}
                   </Typography>
                   <Typography>
-                    <strong>WhatsApp:</strong> {usuario.whatsapp}
+                    <strong>WhatsApp:</strong> {usuario.whatsapp || "Não informado"}
                   </Typography>
                   <Typography>
-                    <strong>CPF:</strong> {usuario.cpf}
+                    <strong>CPF:</strong> {usuario.cpf || "Não informado"}
                   </Typography>
                   <Box mt={2}>
                     <Button variant="contained" color="success">
