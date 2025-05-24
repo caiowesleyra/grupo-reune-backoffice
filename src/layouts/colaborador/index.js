@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
@@ -8,15 +8,38 @@ import Footer from "examples/Footer";
 import ComplexStatisticsCard from "examples/Cards/StatisticsCards/ComplexStatisticsCard";
 import MDInput from "components/MDInput";
 import MDButton from "components/MDButton";
+import axios from "axios";
 
 function ColaboradorIndependente() {
-  const linkDeIndicacao = "https://www.gruporeune.com.br/?ref=seuusuario"; // substituir dinamicamente depois
+  const [totalDiretos, setTotalDiretos] = useState(0);
+  const [saldoComissoes, setSaldoComissoes] = useState(0);
+  const [indicados, setIndicados] = useState([]);
+  const [linkDeIndicacao, setLinkDeIndicacao] = useState("");
 
-  const indicados = [
-    { nome: "joaodasilva", status: "Fundador", cotas: 10 },
-    { nome: "maria2025", status: "Partner", cotas: 5 },
-    { nome: "lucas_user", status: "Cadastrado", cotas: 0 },
-  ];
+  useEffect(() => {
+    const usuario = JSON.parse(localStorage.getItem("usuario"));
+    if (usuario && usuario.id) {
+      // Definir link de indicação dinâmico
+      setLinkDeIndicacao(`https://www.gruporeune.com.br/?ref=${usuario.id}`);
+
+      // Buscar total de indicados diretos
+      axios.get(`https://grupo-reune-backend.onrender.com/api/indicados-diretos/${usuario.id}`)
+        .then(res => {
+          setTotalDiretos(res.data.total);
+          setIndicados(res.data.indicados);
+        })
+        .catch(err => {
+          console.error("Erro ao buscar indicados diretos:", err);
+        });
+
+      // Buscar saldo total de comissões diretas
+      axios.get(`https://grupo-reune-backend.onrender.com/api/saldo-comissoes/${usuario.id}`)
+        .then(res => setSaldoComissoes(res.data.total))
+        .catch(err => {
+          console.error("Erro ao buscar saldo de comissões:", err);
+        });
+    }
+  }, []);
 
   return (
     <DashboardLayout>
@@ -29,7 +52,7 @@ function ColaboradorIndependente() {
                 color="info"
                 icon="person_add"
                 title="Total de Diretos"
-                count={indicados.length}
+                count={totalDiretos}
                 percentage={{
                   color: "success",
                   amount: "",
@@ -44,7 +67,7 @@ function ColaboradorIndependente() {
                 color="success"
                 icon="paid"
                 title="Saldo Total de Indicações"
-                count="R$ 150,00"
+                count={`R$ ${saldoComissoes.toFixed(2)}`}
                 percentage={{
                   color: "success",
                   amount: "",
@@ -69,12 +92,11 @@ function ColaboradorIndependente() {
             Copiar Link
           </MDButton>
           <MDTypography variant="caption" display="block" mt={2} sx={{ color: "#fff" }}>
-            Compartilhe esse link para indicar pessoas e ganhar comissões automáticas de 10% por
-            cada cota adquirida!
+            Compartilhe esse link para indicar pessoas e ganhar comissões automáticas de 10% por cada cota adquirida!
           </MDTypography>
         </MDBox>
 
-        {/* Tabela de indicados */}
+        {/* Tabela de indicados diretos */}
         <MDBox mt={6}>
           <MDTypography variant="h6" mb={2} sx={{ color: "#fff" }}>
             Indicados Diretos
@@ -84,57 +106,16 @@ function ColaboradorIndependente() {
               <MDBox component="table" width="100%" sx={{ borderCollapse: "collapse" }}>
                 <thead>
                   <tr>
-                    <th
-                      style={{
-                        color: "#fff",
-                        textAlign: "left",
-                        padding: "12px",
-                        borderBottom: "1px solid #ccc",
-                      }}
-                    >
-                      Nome/Login
-                    </th>
-                    <th
-                      style={{
-                        color: "#fff",
-                        textAlign: "left",
-                        padding: "12px",
-                        borderBottom: "1px solid #ccc",
-                      }}
-                    >
-                      Status
-                    </th>
-                    <th
-                      style={{
-                        color: "#fff",
-                        textAlign: "left",
-                        padding: "12px",
-                        borderBottom: "1px solid #ccc",
-                      }}
-                    >
-                      Cotas
-                    </th>
+                    <th style={{ color: "#fff", textAlign: "left", padding: "12px", borderBottom: "1px solid #ccc" }}>Nome/Login</th>
+                    <th style={{ color: "#fff", textAlign: "left", padding: "12px", borderBottom: "1px solid #ccc" }}>Status</th>
+                    <th style={{ color: "#fff", textAlign: "left", padding: "12px", borderBottom: "1px solid #ccc" }}>Cotas</th>
                   </tr>
                 </thead>
                 <tbody>
                   {indicados.map((item, index) => (
                     <tr key={index}>
-                      <td
-                        style={{
-                          color: "#fff",
-                          padding: "12px",
-                          borderBottom: "1px solid #444",
-                        }}
-                      >
-                        {item.nome}
-                      </td>
-                      <td
-                        style={{
-                          color: "#fff",
-                          padding: "12px",
-                          borderBottom: "1px solid #444",
-                        }}
-                      >
+                      <td style={{ color: "#fff", padding: "12px", borderBottom: "1px solid #444" }}>{item.nome}</td>
+                      <td style={{ color: "#fff", padding: "12px", borderBottom: "1px solid #444" }}>
                         <MDBox
                           component="span"
                           px={2}
@@ -154,15 +135,7 @@ function ColaboradorIndependente() {
                           {item.status}
                         </MDBox>
                       </td>
-                      <td
-                        style={{
-                          color: "#fff",
-                          padding: "12px",
-                          borderBottom: "1px solid #444",
-                        }}
-                      >
-                        {item.cotas}
-                      </td>
+                      <td style={{ color: "#fff", padding: "12px", borderBottom: "1px solid #444" }}>{item.cotas}</td>
                     </tr>
                   ))}
                 </tbody>
