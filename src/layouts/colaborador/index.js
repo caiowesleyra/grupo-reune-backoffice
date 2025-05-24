@@ -82,7 +82,8 @@ function ColaboradorIndependente() {
             Copiar Link
           </MDButton>
           <MDTypography variant="caption" display="block" mt={2} sx={{ color: "#fff" }}>
-            Compartilhe esse link para indicar pessoas e ganhar comissões automáticas de 10% por cada cota adquirida!
+            Compartilhe esse link para indicar pessoas e ganhar comissões automáticas de 10% por
+            cada cota adquirida!
           </MDTypography>
         </MDBox>
 
