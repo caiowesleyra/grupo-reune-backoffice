@@ -11,29 +11,26 @@ import MDButton from "components/MDButton";
 import axios from "axios";
 
 function ColaboradorIndependente() {
-  const [totalDiretos, setTotalDiretos] = useState(0);
-  const [saldoTotal, setSaldoTotal] = useState(0);
   const [indicados, setIndicados] = useState([]);
+  const [saldoComissoes, setSaldoComissoes] = useState(0);
 
   useEffect(() => {
     const usuario = JSON.parse(localStorage.getItem("usuario"));
+
     if (usuario && usuario.id) {
       axios
-        .get(`https://grupo-reune-backend.onrender.com/api/indicacoes/${usuario.id}`)
-        .then((res) => {
-          setTotalDiretos(res.data.totalDiretos);
-          setIndicados(res.data.indicados);
-        })
-        .catch((err) => console.error("Erro ao buscar indicações:", err));
+        .get(`https://grupo-reune-backend.onrender.com/api/indicacoes-diretas/${usuario.id}`)
+        .then((res) => setIndicados(res.data.indicados))
+        .catch((err) => console.error("Erro ao buscar indicados:", err));
 
       axios
-        .get(`https://grupo-reune-backend.onrender.com/api/saldo-indicacoes/${usuario.id}`)
-        .then((res) => setSaldoTotal(res.data.saldoTotal))
-        .catch((err) => console.error("Erro ao buscar saldo de indicações:", err));
+        .get(`https://grupo-reune-backend.onrender.com/api/comissoes-totais/${usuario.id}`)
+        .then((res) => setSaldoComissoes(res.data.total))
+        .catch((err) => console.error("Erro ao buscar comissões:", err));
     }
   }, []);
 
-  const linkDeIndicacao = `https://www.gruporeune.com.br/?ref=${usuario?.id || "seuusuario"}`;
+  const linkDeIndicacao = "https://www.gruporeune.com.br/?ref=seuusuario";
 
   return (
     <DashboardLayout>
@@ -46,7 +43,7 @@ function ColaboradorIndependente() {
                 color="info"
                 icon="person_add"
                 title="Total de Diretos"
-                count={totalDiretos}
+                count={indicados.length}
                 percentage={{
                   color: "success",
                   amount: "",
@@ -61,7 +58,7 @@ function ColaboradorIndependente() {
                 color="success"
                 icon="paid"
                 title="Saldo Total de Indicações"
-                count={`R$ ${saldoTotal.toFixed(2)}`}
+                count={`R$ ${saldoComissoes.toFixed(2)}`}
                 percentage={{
                   color: "success",
                   amount: "",
@@ -72,7 +69,6 @@ function ColaboradorIndependente() {
           </Grid>
         </Grid>
 
-        {/* Link de indicação */}
         <MDBox mt={4} p={2} borderRadius="lg" border="1px solid #ccc" textAlign="center">
           <MDTypography variant="h6" mb={2} sx={{ color: "#fff" }}>
             Seu link de indicação
@@ -90,7 +86,6 @@ function ColaboradorIndependente() {
           </MDTypography>
         </MDBox>
 
-        {/* Tabela de indicados */}
         <MDBox mt={6}>
           <MDTypography variant="h6" mb={2} sx={{ color: "#fff" }}>
             Indicados Diretos
@@ -100,16 +95,57 @@ function ColaboradorIndependente() {
               <MDBox component="table" width="100%" sx={{ borderCollapse: "collapse" }}>
                 <thead>
                   <tr>
-                    <th style={{ color: "#fff", textAlign: "left", padding: "12px", borderBottom: "1px solid #ccc" }}>Nome/Login</th>
-                    <th style={{ color: "#fff", textAlign: "left", padding: "12px", borderBottom: "1px solid #ccc" }}>Status</th>
-                    <th style={{ color: "#fff", textAlign: "left", padding: "12px", borderBottom: "1px solid #ccc" }}>Cotas</th>
+                    <th
+                      style={{
+                        color: "#fff",
+                        textAlign: "left",
+                        padding: "12px",
+                        borderBottom: "1px solid #ccc",
+                      }}
+                    >
+                      Nome/Login
+                    </th>
+                    <th
+                      style={{
+                        color: "#fff",
+                        textAlign: "left",
+                        padding: "12px",
+                        borderBottom: "1px solid #ccc",
+                      }}
+                    >
+                      Status
+                    </th>
+                    <th
+                      style={{
+                        color: "#fff",
+                        textAlign: "left",
+                        padding: "12px",
+                        borderBottom: "1px solid #ccc",
+                      }}
+                    >
+                      Cotas
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   {indicados.map((item, index) => (
                     <tr key={index}>
-                      <td style={{ color: "#fff", padding: "12px", borderBottom: "1px solid #444" }}>{item.nome}</td>
-                      <td style={{ color: "#fff", padding: "12px", borderBottom: "1px solid #444" }}>
+                      <td
+                        style={{
+                          color: "#fff",
+                          padding: "12px",
+                          borderBottom: "1px solid #444",
+                        }}
+                      >
+                        {item.nome}
+                      </td>
+                      <td
+                        style={{
+                          color: "#fff",
+                          padding: "12px",
+                          borderBottom: "1px solid #444",
+                        }}
+                      >
                         <MDBox
                           component="span"
                           px={2}
@@ -119,15 +155,25 @@ function ColaboradorIndependente() {
                           fontWeight="bold"
                           sx={{
                             backgroundColor:
-                              item.status === "Fundador" ? "#4caf50" :
-                              item.status === "Partner" ? "#2196f3" :
-                              "#9e9e9e",
+                              item.status === "Fundador"
+                                ? "#4caf50"
+                                : item.status === "Partner"
+                                ? "#2196f3"
+                                : "#9e9e9e",
                           }}
                         >
                           {item.status}
                         </MDBox>
                       </td>
-                      <td style={{ color: "#fff", padding: "12px", borderBottom: "1px solid #444" }}>{item.cotas}</td>
+                      <td
+                        style={{
+                          color: "#fff",
+                          padding: "12px",
+                          borderBottom: "1px solid #444",
+                        }}
+                      >
+                        {item.cotas}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
