@@ -15,7 +15,14 @@ function Profile() {
       axios
         .get(`https://grupo-reune-backend.onrender.com/api/usuarios/${usuarioLocal.id}`)
         .then((res) => {
-          setUsuario(res.data);
+          // Tenta pegar o usuário em diferentes formatos de resposta
+          if (res.data && res.data.usuario) {
+            setUsuario(res.data.usuario);
+          } else if (res.data && res.data.data) {
+            setUsuario(res.data.data);
+          } else {
+            setUsuario(res.data);
+          }
         })
         .catch((err) => {
           console.error("❌ Erro ao buscar usuário:", err);
