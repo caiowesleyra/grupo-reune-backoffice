@@ -1,20 +1,4 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.2.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-// @mui material components
-// @mui material components
+// src/layouts/dashboard/profile/index.js
 import React, { useEffect, useState } from "react";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
@@ -26,18 +10,15 @@ function Profile() {
   const [usuario, setUsuario] = useState(null);
 
   useEffect(() => {
-    // Recupera o usuário do localStorage
-    const dados = localStorage.getItem("usuario");
-    if (dados) {
-      const user = JSON.parse(dados);
-      // Buscar informações completas no backend pelo ID
+    const usuarioLocal = JSON.parse(localStorage.getItem("usuario"));
+    if (usuarioLocal && usuarioLocal.id) {
       axios
-        .get(`https://grupo-reune-backend.onrender.com/api/usuario/${user.id}`)
+        .get(`https://grupo-reune-backend.onrender.com/api/usuarios/${usuarioLocal.id}`)
         .then((res) => {
-          setUsuario(res.data.usuario);
+          setUsuario(res.data);
         })
         .catch((err) => {
-          console.error("Erro ao buscar dados do perfil:", err);
+          console.error("❌ Erro ao buscar usuário:", err);
         });
     }
   }, []);
@@ -61,7 +42,7 @@ function Profile() {
                     <strong>Email:</strong> {usuario.email}
                   </Typography>
                   <Typography>
-                    <strong>Status:</strong> {usuario.status || "VISITANTE"}
+                    <strong>Status:</strong> {usuario.status || "Não informado"}
                   </Typography>
                   <Typography>
                     <strong>WhatsApp:</strong> {usuario.whatsapp || "Não informado"}
@@ -80,7 +61,7 @@ function Profile() {
                 </Grid>
               </Grid>
             ) : (
-              <Typography color="error">Nenhum usuário logado.</Typography>
+              <Typography color="error">Nenhum usuário logado ou dados não carregados.</Typography>
             )}
           </CardContent>
         </Card>
