@@ -12,34 +12,28 @@ import axios from "axios";
 
 function ColaboradorIndependente() {
   const [totalDiretos, setTotalDiretos] = useState(0);
-  const [saldoComissoes, setSaldoComissoes] = useState(0);
+  const [saldoTotal, setSaldoTotal] = useState(0);
   const [indicados, setIndicados] = useState([]);
-  const [linkDeIndicacao, setLinkDeIndicacao] = useState("");
 
   useEffect(() => {
     const usuario = JSON.parse(localStorage.getItem("usuario"));
     if (usuario && usuario.id) {
-      // Definir link de indicação dinâmico
-      setLinkDeIndicacao(`https://www.gruporeune.com.br/?ref=${usuario.id}`);
-
-      // Buscar total de indicados diretos
-      axios.get(`https://grupo-reune-backend.onrender.com/api/indicados-diretos/${usuario.id}`)
-        .then(res => {
-          setTotalDiretos(res.data.total);
+      axios
+        .get(`https://grupo-reune-backend.onrender.com/api/indicacoes/${usuario.id}`)
+        .then((res) => {
+          setTotalDiretos(res.data.totalDiretos);
           setIndicados(res.data.indicados);
         })
-        .catch(err => {
-          console.error("Erro ao buscar indicados diretos:", err);
-        });
+        .catch((err) => console.error("Erro ao buscar indicações:", err));
 
-      // Buscar saldo total de comissões diretas
-      axios.get(`https://grupo-reune-backend.onrender.com/api/saldo-comissoes/${usuario.id}`)
-        .then(res => setSaldoComissoes(res.data.total))
-        .catch(err => {
-          console.error("Erro ao buscar saldo de comissões:", err);
-        });
+      axios
+        .get(`https://grupo-reune-backend.onrender.com/api/saldo-indicacoes/${usuario.id}`)
+        .then((res) => setSaldoTotal(res.data.saldoTotal))
+        .catch((err) => console.error("Erro ao buscar saldo de indicações:", err));
     }
   }, []);
+
+  const linkDeIndicacao = `https://www.gruporeune.com.br/?ref=${usuario?.id || "seuusuario"}`;
 
   return (
     <DashboardLayout>
@@ -67,7 +61,7 @@ function ColaboradorIndependente() {
                 color="success"
                 icon="paid"
                 title="Saldo Total de Indicações"
-                count={`R$ ${saldoComissoes.toFixed(2)}`}
+                count={`R$ ${saldoTotal.toFixed(2)}`}
                 percentage={{
                   color: "success",
                   amount: "",
@@ -96,7 +90,7 @@ function ColaboradorIndependente() {
           </MDTypography>
         </MDBox>
 
-        {/* Tabela de indicados diretos */}
+        {/* Tabela de indicados */}
         <MDBox mt={6}>
           <MDTypography variant="h6" mb={2} sx={{ color: "#fff" }}>
             Indicados Diretos
@@ -125,11 +119,9 @@ function ColaboradorIndependente() {
                           fontWeight="bold"
                           sx={{
                             backgroundColor:
-                              item.status === "Fundador"
-                                ? "#4caf50"
-                                : item.status === "Partner"
-                                ? "#2196f3"
-                                : "#9e9e9e",
+                              item.status === "Fundador" ? "#4caf50" :
+                              item.status === "Partner" ? "#2196f3" :
+                              "#9e9e9e",
                           }}
                         >
                           {item.status}
