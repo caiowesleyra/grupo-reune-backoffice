@@ -12,10 +12,9 @@ function Profile() {
     const dados = localStorage.getItem("usuario");
     if (dados) {
       const user = JSON.parse(dados);
-      // Aqui vamos buscar dados atualizados do backend pelo ID (opcional)
       axios.get(`https://grupo-reune-backend.onrender.com/api/usuarios/${user.id}`)
-        .then((res) => setUsuario(res.data))
-        .catch(() => setUsuario(user));  // Se falhar, usa os dados do localStorage
+        .then(res => setUsuario(res.data))
+        .catch(err => console.error("Erro ao buscar dados do usuário:", err));
     }
   }, []);
 
@@ -31,11 +30,13 @@ function Profile() {
                   <Avatar alt={usuario.nome} src="" sx={{ width: 120, height: 120 }} />
                 </Grid>
                 <Grid item xs={12} md={9}>
-                  <Typography variant="h5" gutterBottom>{usuario.nome}</Typography>
+                  <Typography variant="h5" gutterBottom>
+                    {usuario.nome}
+                  </Typography>
                   <Typography><strong>Email:</strong> {usuario.email}</Typography>
-                  <Typography><strong>Status:</strong> {usuario.status || "Não informado"}</Typography>
-                  <Typography><strong>WhatsApp:</strong> {usuario.telefone || "Não informado"}</Typography>
-                  <Typography><strong>CPF:</strong> {usuario.cpf || "Não informado"}</Typography>
+                  <Typography><strong>Status:</strong> {usuario.status}</Typography>
+                  <Typography><strong>WhatsApp:</strong> {usuario.whatsapp}</Typography>
+                  <Typography><strong>CPF:</strong> {usuario.cpf}</Typography>
                   <Box mt={2}>
                     <Button variant="contained" color="success">EDITAR INFORMAÇÕES</Button>{" "}
                     <Button variant="outlined" color="secondary">TROCAR SENHA</Button>
@@ -43,7 +44,7 @@ function Profile() {
                 </Grid>
               </Grid>
             ) : (
-              <Typography color="error">Nenhum usuário logado.</Typography>
+              <Typography color="error">Nenhum usuário logado ou dados não carregados.</Typography>
             )}
           </CardContent>
         </Card>
