@@ -153,7 +153,13 @@ function FreeDonationPage() {
           onChange={(e) => setCidadeEstado(e.target.value)}
         />
 
-        <Button fullWidth variant="contained" color="success" sx={{ mt: 2 }} onClick={handleVoluntario}>
+        <Button 
+          fullWidth
+          variant="contained"
+          color="success"
+          sx={{ mt: 2 }}
+          onClick={handleVoluntario}
+          >
           Enviar Cadastro
         </Button>
         {mensagemVoluntario && (
