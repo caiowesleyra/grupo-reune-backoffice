@@ -1,42 +1,27 @@
-// @mui material components
+// layouts/dashboard/components/DonationActivityTimeline.js
+
+import React, { useEffect, useState } from "react";
 import Card from "@mui/material/Card";
 import Icon from "@mui/material/Icon";
-
-// Material Dashboard components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
-
-// Timeline item component
 import TimelineItem from "examples/Timeline/TimelineItem";
-
-// Lista de atividades simuladas
-const activities = [
-  {
-    type: "donation",
-    user: "joaodasilva",
-    value: 15,
-    timestamp: "12 Mai 2025 às 01:32",
-  },
-  {
-    type: "up",
-    user: "carlos",
-    position: 2,
-    timestamp: "12 Mai 2025 às 01:10",
-  },
-  {
-    type: "down",
-    user: "fernanda",
-    position: 3,
-    timestamp: "12 Mai 2025 às 01:05",
-  },
-  {
-    type: "new",
-    user: "luana2025",
-    timestamp: "12 Mai 2025 às 00:55",
-  },
-];
+import axios from "axios";
 
 function DonationActivityTimeline() {
+  const [activities, setActivities] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("https://grupo-reune-backend.onrender.com/api/atividades-recentes")
+      .then((res) => {
+        setActivities(res.data);
+      })
+      .catch((err) => {
+        console.error("Erro ao buscar atividades recentes:", err);
+      });
+  }, []);
+
   return (
     <Card sx={{ height: "100%" }}>
       <MDBox pt={3} px={3}>
@@ -52,26 +37,27 @@ function DonationActivityTimeline() {
           let icon = "notifications";
           let color = "info";
           let title = "";
-          switch (activity.type) {
+
+          switch (activity.tipo) {
             case "donation":
               icon = "volunteer_activism";
               color = "success";
-              title = `${activity.user} doou ${activity.value} cotas`;
+              title = `${activity.usuario} doou ${activity.cotas} cotas`;
               break;
             case "up":
               icon = "trending_up";
               color = "primary";
-              title = `${activity.user} subiu para o ${activity.position}º lugar`;
+              title = `${activity.usuario} subiu para o ${activity.posicao}º lugar`;
               break;
             case "down":
               icon = "trending_down";
               color = "error";
-              title = `${activity.user} caiu para o ${activity.position}º lugar`;
+              title = `${activity.usuario} caiu para o ${activity.posicao}º lugar`;
               break;
             case "new":
               icon = "person_add";
               color = "warning";
-              title = `Novo doador entrou: ${activity.user}`;
+              title = `Novo doador entrou: ${activity.usuario}`;
               break;
             default:
               break;
