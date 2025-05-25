@@ -25,9 +25,14 @@ function RankingDoadores() {
   const [rankingData, setRankingData] = useState([]);
 
   useEffect(() => {
-    axios.get("https://grupo-reune-backend.onrender.com/api/ranking-doadores")
-      .then(res => setRankingData(res.data))
-      .catch(err => console.error("Erro ao buscar ranking:", err));
+    axios
+      .get("https://grupo-reune-backend.onrender.com/api/ranking-doadores")
+      .then((response) => {
+        setRankingData(response.data);
+      })
+      .catch((error) => {
+        console.error("Erro ao buscar ranking:", error);
+      });
   }, []);
 
   return (
