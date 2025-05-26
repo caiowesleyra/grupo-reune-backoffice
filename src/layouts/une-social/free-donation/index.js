@@ -111,6 +111,7 @@ function FreeDonationPage() {
         </Typography>
         <input
           type="file"
+          name="comprovante" // 🔥 Campo de nome correto para o backend
           accept=".jpg,.jpeg,.png,.pdf"
           style={{ marginTop: 8, marginBottom: 16 }}
           onChange={(e) => setComprovante(e.target.files[0])}
