@@ -77,10 +77,8 @@ function ColaboradorIndependente() {
             value={linkDeIndicacao}
             fullWidth
             readOnly
-            sx={{
-              mb: 2,
-              input: { color: "white" }, // Cor do texto do link para branco
-            }}
+            inputProps={{ style: { color: "#fff" } }} // Aqui está a modificação!
+            sx={{ mb: 2 }}
           />
           <MDButton
             variant="gradient"
