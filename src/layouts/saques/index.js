@@ -67,7 +67,6 @@ function Saque() {
         chave_pix: chavePix,
         tipo_pix: tipoPix,
       });
-      
       setSnackbarMsg(response.data.mensagem || "Solicitação de saque enviada com sucesso!");
       setSnackbarSeverity("success");
       setOpenSnackbar(true);
