@@ -73,7 +73,15 @@ function ColaboradorIndependente() {
           <MDTypography variant="h6" mb={2} sx={{ color: "#fff" }}>
             Seu link de indicação
           </MDTypography>
-          <MDInput value={linkDeIndicacao} fullWidth readOnly sx={{ mb: 2 }} />
+          <MDInput
+            value={linkDeIndicacao}
+            fullWidth
+            readOnly
+            sx={{
+              mb: 2,
+              input: { color: "white" }, // Cor do texto do link para branco
+            }}
+          />
           <MDButton
             variant="gradient"
             color="info"
