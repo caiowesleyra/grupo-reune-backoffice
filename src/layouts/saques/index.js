@@ -61,15 +61,13 @@ function Saque() {
     }
 
     try {
-      const response = await axios.post(
-        "https://grupo-reune-backend.onrender.com/api/saques",
-        {
-          id_usuario: usuario.id,
-          valor: parseFloat(valor),
-          chave_pix: chavePix,
-          tipo_pix: tipoPix,
-        }
-      );
+      const response = await axios.post("https://grupo-reune-backend.onrender.com/api/saques", {
+        id_usuario: usuario.id,
+        valor: parseFloat(valor),
+        chave_pix: chavePix,
+        tipo_pix: tipoPix,
+      });
+      
       setSnackbarMsg(response.data.mensagem || "Solicitação de saque enviada com sucesso!");
       setSnackbarSeverity("success");
       setOpenSnackbar(true);
