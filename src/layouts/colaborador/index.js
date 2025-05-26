@@ -13,6 +13,7 @@ import axios from "axios";
 function ColaboradorIndependente() {
   const [indicados, setIndicados] = useState([]);
   const [saldoComissoes, setSaldoComissoes] = useState(0);
+  const [linkDeIndicacao, setLinkDeIndicacao] = useState("");
 
   useEffect(() => {
     const usuario = JSON.parse(localStorage.getItem("usuario"));
@@ -27,10 +28,15 @@ function ColaboradorIndependente() {
         .get(`https://grupo-reune-backend.onrender.com/api/comissoes-totais/${usuario.id}`)
         .then((res) => setSaldoComissoes(res.data.total))
         .catch((err) => console.error("Erro ao buscar comissões:", err));
+
+      // Construir link de indicação dinâmico com ID do usuário
+      const link = `https://www.gruporeune.com.br/?ref=${usuario.id}`;
+      setLinkDeIndicacao(link);
+    } else {
+      // Caso não haja usuário logado, usar placeholder
+      setLinkDeIndicacao("https://www.gruporeune.com.br/?ref=seuusuario");
     }
   }, []);
-
-  const linkDeIndicacao = "https://www.gruporeune.com.br/?ref=seuusuario";
 
   return (
     <DashboardLayout>
@@ -77,7 +83,7 @@ function ColaboradorIndependente() {
             value={linkDeIndicacao}
             fullWidth
             readOnly
-            inputProps={{ style: { color: "#fff" } }} // Aqui está a modificação!
+            inputProps={{ style: { color: "#fff" } }}
             sx={{ mb: 2 }}
           />
           <MDButton
